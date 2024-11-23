@@ -365,7 +365,7 @@ client.organization.getInvitation({
 
 ### Remove Member 
 
-To remove you can use `organization.removeMember`
+To remove you can use the `organization.removeMember` function provided by the client. The function will take the member id as the argument.
 
 ```ts title="client.ts"
 //remove member
@@ -376,7 +376,7 @@ await client.organization.removeMember({
 
 ### Update Member Role
 
-To update the role of a member in an organization, you can use the `organization.updateMemberRole`. If the user has the permission to update the role of the member, the role will be updated.
+To update the role of a member in an organization, you can use the `organization.updateMemberRole` function. If the user has the permission to update the role of the member, the role will be updated.
 
 ```ts title="client.ts"
 await client.organization.updateMemberRole({
@@ -387,7 +387,7 @@ await client.organization.updateMemberRole({
 
 ### Get Active Member
 
-To get the current member of the organization you can use the `organization.getActiveMember` function. This function will return the current active member.
+To get the current member of the organization with their role, you can use the `organization.getActiveMember` function. This function will return the current active member.
 
 ```ts title="client.ts"
 const member = await client.organization.getActiveMember()
