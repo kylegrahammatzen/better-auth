@@ -5,7 +5,8 @@ import { useAtom } from "jotai";
 import { optionsAtom } from "../store";
 import { CodeEditor } from "./code-editor";
 import { CodeTab } from "./code-tab";
-import { AuthFile, AuthOptions, beautifyCode, createInitialFiles } from "./utils/file-templates";
+import { AuthFile, AuthOptions, beautifyCode, createInitialFiles } from "./file-templates";
+import { useTheme } from "next-themes";
 
 export default function CodeTabs() {
   const [options] = useAtom(optionsAtom);
@@ -15,7 +16,10 @@ export default function CodeTabs() {
   const handleTabClick = (fileId: string) => setActiveFileId(fileId);
   
   const handleTabClose = (fileId: string) => {
-    setFiles(files.filter((file: AuthFile) => file.id !== fileId));
+	setFiles(files.filter((file: AuthFile) => file.id !== fileId));
+	if (files.length === 1) {
+      return;
+	}
     if (activeFileId === fileId) {
       setActiveFileId(files[0].id);
     }
@@ -44,7 +48,7 @@ export default function CodeTabs() {
           <CodeEditor
             language={activeFile.name.endsWith('.ts') ? 'typescript' : 'tsx'}
             value={beautifyCode(activeFile.content)}
-            fileName={activeFile.name}
+			fileName={activeFile.name}
           />
         )}
       </div>
