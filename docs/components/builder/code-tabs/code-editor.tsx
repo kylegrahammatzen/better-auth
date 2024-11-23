@@ -83,7 +83,7 @@ export function CodeEditor({ language, value, fileName }: CodeEditorProps) {
           )}
         </Button>
         <Highlight 
-          theme={resolvedTheme === "dark" ? themes.dracula : themes.github}
+          theme={resolvedTheme === "dark" ? themes.dracula : themes.github} 
           code={value} 
           language={language}
         >
