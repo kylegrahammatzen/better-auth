@@ -7,16 +7,14 @@ import clsx from "clsx";
 
 import { GridPattern } from "./grid-pattern";
 import { Button } from "@/components/ui/button";
-import { Check, Copy, Github, Icon, PlusIcon } from "lucide-react";
+import { Check, Copy} from "lucide-react";
 import { useTheme } from "next-themes";
 import { Highlight, themes } from "prism-react-renderer";
 import {
 	AnimatePresence,
-	LayoutGroup,
 	motion,
 	MotionConfig,
 } from "framer-motion";
-import { Icons } from "../icons";
 import { Cover } from "../ui/cover";
 import { PulicBetaBadge } from "../beta/badge";
 import { Builder } from "../builder";
@@ -41,8 +39,7 @@ const tabs: { name: "auth.ts" | "client.ts"; code: string }[] = [
 		name: "client.ts",
 		code: `const client = createAuthClient({
     plugins: [passkeyClient()]
-});
-        `,
+});`,
 	},
 ];
 
@@ -115,165 +112,157 @@ export default function Hero() {
 }
 
 function CodePreview() {
-	const [currentTab, setCurrentTab] = useState<"auth.ts" | "client.ts">(
-		"auth.ts",
-	);
-
-	const theme = useTheme();
-
+	const [currentTab, setCurrentTab] = useState("auth.ts");
+	const { resolvedTheme } = useTheme();
+  
 	const code = tabs.find((tab) => tab.name === currentTab)?.code ?? "";
 	const [copyState, setCopyState] = useState(false);
 	const [ref, { height }] = useMeasure();
+  
 	const copyToClipboard = (text: string) => {
+	  if (typeof navigator !== 'undefined') {
 		navigator.clipboard.writeText(text).then(() => {
-			setCopyState(true);
-			setTimeout(() => {
-				setCopyState(false);
-			}, 2000);
+		  setCopyState(true);
+		  setTimeout(() => {
+			setCopyState(false);
+		  }, 2000);
 		});
+	  }
 	};
-
+  
 	return (
-		<AnimatePresence initial={false}>
-			<MotionConfig transition={{ duration: 0.5, type: "spring", bounce: 0 }}>
-				<motion.div
-					animate={{ height: height > 0 ? height : undefined }}
-					className="from-stone-100 to-stone-200 dark:to-black/90 dark:via-stone-950/10 dark:from-stone-950/90 relative overflow-hidden rounded-sm bg-gradient-to-tr ring-1 ring-white/10 backdrop-blur-lg"
-				>
-					<div ref={ref}>
-						<div className="absolute -top-px left-0 right-0 h-px" />
-						<div className="absolute -bottom-px left-11 right-20 h-px" />
-						<div className="pl-4 pt-4">
-							<TrafficLightsIcon className="stroke-slate-500/30 h-2.5 w-auto" />
-
-							<div className="mt-4 flex space-x-2 text-xs">
-								{tabs.map((tab) => (
-									<button
-										key={tab.name}
-										onClick={() => setCurrentTab(tab.name)}
-										className={clsx(
-											"relative isolate flex h-6 cursor-pointer items-center justify-center rounded-full px-2.5",
-											currentTab === tab.name
-												? "text-stone-300"
-												: "text-slate-500",
-										)}
-									>
-										{tab.name}
-										{tab.name === currentTab && (
-											<motion.div
-												layoutId="tab-code-preview"
-												className="bg-stone-800 absolute inset-0 -z-10 rounded-full"
-											/>
-										)}
-									</button>
-								))}
-							</div>
-
-							<div className="mt-6 flex flex-col items-start px-1 text-sm">
-								<div className="absolute top-2 right-4">
-									<Button
-										variant="outline"
-										size="icon"
-										className="absolute w-5 border-none bg-transparent h-5 top-2 right-0"
-										onClick={() => copyToClipboard(code)}
-									>
-										{copyState ? (
-											<Check className="h-3 w-3" />
-										) : (
-											<Copy className="h-3 w-3" />
-										)}
-										<span className="sr-only">Copy code</span>
-									</Button>
-								</div>
-								<motion.div
-									initial={{ opacity: 0 }}
-									animate={{ opacity: 1 }}
-									transition={{ duration: 0.5 }}
-									key={currentTab}
-									className="relative flex items-start px-1 text-sm"
-								>
-									<div
-										aria-hidden="true"
-										className="border-slate-300/5 text-slate-600 select-none border-r pr-4 font-mono"
-									>
-										{Array.from({
-											length: code.split("\n").length,
-										}).map((_, index) => (
-											<Fragment key={index}>
-												{(index + 1).toString().padStart(2, "0")}
-												<br />
-											</Fragment>
-										))}
-									</div>
-									<Highlight
-										key={theme.resolvedTheme}
-										code={code}
-										language={"javascript"}
-										theme={{
-											...(theme.resolvedTheme === "light"
-												? themes.oneLight
-												: themes.synthwave84),
-
-											plain: {
-												backgroundColor: "transparent",
-											},
-										}}
-									>
-										{({
-											className,
-											style,
-											tokens,
-											getLineProps,
-											getTokenProps,
-										}) => (
-											<pre
-												className={clsx(className, "flex overflow-x-auto pb-6")}
-												style={style}
-											>
-												<code className="px-4">
-													{tokens.map((line, lineIndex) => (
-														<div key={lineIndex} {...getLineProps({ line })}>
-															{line.map((token, tokenIndex) => (
-																<span
-																	key={tokenIndex}
-																	{...getTokenProps({ token })}
-																/>
-															))}
-														</div>
-													))}
-												</code>
-											</pre>
-										)}
-									</Highlight>
-								</motion.div>
-								<motion.div layout className="self-end">
-									<Link
-										href="https://demo.better-auth.com"
-										target="_blank"
-										className="shadow-md  border shadow-primary-foreground mb-4 ml-auto mr-4 mt-auto flex cursor-pointer items-center gap-2 px-3 py-1 transition-all ease-in-out hover:opacity-70"
-									>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											width="1em"
-											height="1em"
-											viewBox="0 0 24 24"
-										>
-											<path
-												fill="currentColor"
-												d="M10 20H8V4h2v2h2v3h2v2h2v2h-2v2h-2v3h-2z"
-											></path>
-										</svg>
-										<p className="text-sm">Demo</p>
-									</Link>
-								</motion.div>
-							</div>
-						</div>
+	  <AnimatePresence initial={false}>
+		<MotionConfig transition={{ duration: 0.5, type: "spring", bounce: 0 }}>
+		  <motion.div
+			animate={{ height: height > 0 ? height : 'auto' }}
+			className="from-stone-100 to-stone-200 dark:to-black/90 dark:via-stone-950/10 dark:from-stone-950/90 relative overflow-hidden rounded-sm bg-gradient-to-tr ring-1 ring-white/10 backdrop-blur-lg"
+		  >
+			<div ref={ref}>
+			  <div className="absolute -top-px left-0 right-0 h-px" />
+			  <div className="absolute -bottom-px left-11 right-20 h-px" />
+			  <div className="pl-4 pt-4">
+				<TrafficLightsIcon className="stroke-slate-500/30 h-2.5 w-auto" />
+  
+				<div className="mt-4 flex space-x-2 text-xs">
+				  {tabs.map((tab) => (
+					<button
+					  key={tab.name}
+					  onClick={() => setCurrentTab(tab.name)}
+					  className={clsx(
+						"relative isolate flex h-6 cursor-pointer items-center justify-center rounded-full px-2.5",
+						currentTab === tab.name
+						  ? "text-stone-300"
+						  : "text-slate-500",
+					  )}
+					>
+					  {tab.name}
+					  {tab.name === currentTab && (
+						<motion.div
+						  layoutId="tab-code-preview"
+						  className="bg-stone-800 absolute inset-0 -z-10 rounded-full"
+						/>
+					  )}
+					</button>
+				  ))}
+				</div>
+  
+				<div className="mt-6 flex flex-col items-start px-1 text-sm">
+				  <div className="absolute top-2 right-4">
+					<Button
+					  variant="outline"
+					  size="icon"
+					  className="absolute w-5 border-none bg-transparent h-5 top-2 right-0"
+					  onClick={() => copyToClipboard(code)}
+					>
+					  {copyState ? (
+						<Check className="h-3 w-3" />
+					  ) : (
+						<Copy className="h-3 w-3" />
+					  )}
+					  <span className="sr-only">Copy code</span>
+					</Button>
+				  </div>
+				  <motion.div
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.5 }}
+					key={currentTab}
+					className="relative flex items-start px-1 text-sm"
+				  >
+					<div
+					  aria-hidden="true"
+					  className="border-slate-300/5 text-slate-600 select-none border-r pr-4 font-mono"
+					>
+					  {Array.from({
+						length: code.split("\n").length,
+					  }).map((_, index) => (
+						<Fragment key={index}>
+						  {(index + 1).toString().padStart(2, "0")}
+						  <br />
+						</Fragment>
+					  ))}
 					</div>
-				</motion.div>
-			</MotionConfig>
-		</AnimatePresence>
+					<Highlight
+					  code={code}
+					  language="typescript"
+					  theme={resolvedTheme === "dark" ? themes.dracula : themes.github}
+					  >
+					  {({
+						className,
+						style,
+						tokens,
+						getLineProps,
+						getTokenProps,
+					  }) => (
+						<pre
+						  className={clsx(className, "flex overflow-x-auto pb-6")}
+						  style={{ ...style, backgroundColor: "transparent" }}
+						>
+						  <code className="px-4">
+							{tokens.map((line, lineIndex) => (
+							  <div key={lineIndex} {...getLineProps({ line })}>
+								{line.map((token, tokenIndex) => (
+								  <span
+									key={tokenIndex}
+									{...getTokenProps({ token })}
+								  />
+								))}
+							  </div>
+							))}
+						  </code>
+						</pre>
+					  )}
+					</Highlight>
+					  
+				  </motion.div>
+				  <motion.div layout className="self-end">
+					<Link
+					  href="https://demo.better-auth.com"
+					  target="_blank"
+					  className="shadow-md border shadow-primary-foreground mb-4 ml-auto mr-4 mt-auto flex cursor-pointer items-center gap-2 px-3 py-1 transition-all ease-in-out hover:opacity-70"
+					>
+					  <svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="1em"
+						height="1em"
+						viewBox="0 0 24 24"
+					  >
+						<path
+						  fill="currentColor"
+						  d="M10 20H8V4h2v2h2v3h2v2h2v2h-2v2h-2v3h-2z"
+						></path>
+					  </svg>
+					  <p className="text-sm">Demo</p>
+					</Link>
+				  </motion.div>
+				</div>
+			  </div>
+			</div>
+		  </motion.div>
+		</MotionConfig>
+	  </AnimatePresence>
 	);
-}
+  }
 
 export function HeroBackground(props: React.ComponentPropsWithoutRef<"svg">) {
 	const id = useId();

@@ -6,7 +6,6 @@
     color: #970bf5;
     cursor: pointer;
     display: inline-block;
-    float: right;
     letter-spacing: 0.05em;
     margin: 0;
     outline: none;
@@ -93,8 +92,16 @@
     background: none;
 }
 
+.root {
+    --beta-hover-color: black;
+}
+  
+.dark {
+    --beta-hover-color: white;
+}
+
 .beta:hover .text {
-    color: white;
+    color: var(--beta-hover-color);
 }
 
 .beta::before {

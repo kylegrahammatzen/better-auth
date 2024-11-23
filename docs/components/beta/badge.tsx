@@ -1,7 +1,13 @@
+"use client";
+
+import { useTheme } from "next-themes";
 import badgestyle from "./badge.module.css";
+import { cn } from "@/lib/utils";
 export const PulicBetaBadge = ({ text }: { text?: string }) => {
+	const { theme } = useTheme();
+
 	return (
-		<div className="flex flex-col">
+		<div className={cn("flex flex-col", badgestyle.root, theme === 'dark' && badgestyle.dark)}>
 			<div className={badgestyle.beta}>
 				<span className={badgestyle.top_key}></span>
 				<span className={badgestyle.text}>{text}</span>
