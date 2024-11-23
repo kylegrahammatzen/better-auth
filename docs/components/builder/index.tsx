@@ -18,7 +18,6 @@ import SignIn from "./sign-in";
 import { SignUp } from "./sign-up";
 import { AuthTabs } from "./tabs";
 import { useState } from "react";
-import CodeTabs from "./code-tabs";
 import { cn } from "@/lib/utils";
 import { socialProviders } from "./social-provider";
 import { useAtom } from "jotai";
@@ -27,6 +26,7 @@ import { useTheme } from "next-themes";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ConfigurationSwitch, ConfigurationSwitchProps } from "./configuration-switch";
 import { CollapsibleSection } from "./collapsible-section";
+import CodeTabs from "./code-tabs";
 
 const frameworks = [
 	{
@@ -422,7 +422,7 @@ function ConfigurationSection({
           Choose the framework you are using to get started.
         </p>
         <p
-          className="text-blue-400 hover:underline mt-1 text-sm cursor-pointer"
+          className="text-blue-400 hover:underline mt-2 text-sm cursor-pointer"
           onClick={() => setCurrentStep(0)}
         >
           Go Back
@@ -467,14 +467,12 @@ function ConfigurationSection({
         get started.
       </p>
       <p
-        className="text-blue-400 hover:underline mt-1 text-sm cursor-pointer"
+        className="text-blue-400 hover:underline mt-2 text-sm cursor-pointer"
         onClick={() => setCurrentStep(1)}
       >
         Go Back
       </p>
-      <div className="mt-4">
-        <CodeTabs />
-      </div>
+      <CodeTabs />
     </>
   );
 }

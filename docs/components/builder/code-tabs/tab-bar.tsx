@@ -1,5 +1,5 @@
 import React from "react";
-import { CodeTab } from "./code-tabs";
+import { CodeTab } from "./code-tab";
 
 interface File {
 	id: string;

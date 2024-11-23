@@ -176,7 +176,7 @@ async function convertImageToBase64(file: File): Promise<string> {
 	});
 }
 
-export const singUpString = `"use client";
+export const signUpString = `"use client";
 
 import { Button } from "@/components/ui/button";
 import {
