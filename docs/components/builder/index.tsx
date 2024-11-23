@@ -23,7 +23,6 @@ import { socialProviders } from "./social-provider";
 import { useAtom } from "jotai";
 import { Options, optionsAtom } from "./store";
 import { useTheme } from "next-themes";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { ConfigurationSwitch, ConfigurationSwitchProps } from "./configuration-switch";
 import { CollapsibleSection } from "./collapsible-section";
 import CodeTabs from "./code-tabs";
@@ -243,7 +242,6 @@ export function Builder() {
   const [currentStep, setCurrentStep] = useState(0);
   const [options, setOptions] = useAtom<Options>(optionsAtom);
   const { setTheme, resolvedTheme } = useTheme();
-  const isMobile = useIsMobile();
 
   const updateOption = (key: keyof Options, value: boolean | string[]) => {
     setOptions((prev: Options) => ({ ...prev, [key]: value }));
@@ -288,9 +286,9 @@ export function Builder() {
           </DialogDescription>
         </DialogHeader>
 
-        <div className={cn("flex", isMobile ? "flex-col" : "flex-row")}>
-          <div className={cn("w-full", !isMobile && "w-1/2 pr-4")}>
-            <div className={cn("w-full max-w-md mx-auto", isMobile ? "mb-8" : "")}>
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-1/2 md:pr-4">
+            <div className="w-full max-w-md mx-auto mb-8 md:mb-0">
               {options.signUp ? (
                 <AuthTabs
                   tabs={[
@@ -311,7 +309,7 @@ export function Builder() {
               )}
             </div>
           </div>
-          <div className={cn("w-full", !isMobile && "w-1/2")}>
+          <div className="w-full md:w-1/2">
             <Card className="rounded-none">
               <CardHeader className="flex flex-row justify-between items-center">
                 <CardTitle>Configuration</CardTitle>
