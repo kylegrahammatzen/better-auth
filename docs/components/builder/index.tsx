@@ -473,7 +473,7 @@ function ConfigurationSection({
         Go Back
       </p>
       <div className="mt-4">
-        {/* <CodeTabs /> */}
+        <CodeTabs />
       </div>
     </>
   );

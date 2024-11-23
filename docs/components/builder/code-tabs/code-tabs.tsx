@@ -5,14 +5,14 @@ import { X } from "lucide-react";
 interface TabProps {
 	fileName: string;
 	isActive: boolean;
-	brightnessLevel?: number; // New optional prop for brightness level
+	brightnessLevel?: number;
 	onClick: () => void;
 	onClose: () => void;
 }
 
 const brightnessLevels = [
 	"bg-background",
-	"bg-background-200", //
+	"bg-background-200",
 	"bg-background-300",
 	"bg-background-400",
 	"bg-background-500",
@@ -47,9 +47,10 @@ export function CodeTab({
 			onClick={onClick}
 		>
 			<span className="truncate max-w-[100px]">{fileName}</span>
-			<button className="ml-2 text-muted-foreground hover:text-foreground transition-colors duration-200">
+			{/* Commented out as it's non-functional */}
+			{/* <button className="ml-2 text-muted-foreground hover:text-foreground transition-colors duration-200">
 				<X size={14} />
-			</button>
+			</button> */}
 		</div>
 	);
 }
