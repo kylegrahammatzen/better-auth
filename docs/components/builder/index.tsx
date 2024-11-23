@@ -17,9 +17,6 @@ import {
 import SignIn from "./sign-in";
 import { SignUp } from "./sign-up";
 import { AuthTabs } from "./tabs";
-import { Label } from "../ui/label";
-import { Switch } from "../ui/switch";
-import { Separator } from "../ui/separator";
 import { useState } from "react";
 import CodeTabs from "./code-tabs";
 import { cn } from "@/lib/utils";
@@ -27,7 +24,6 @@ import { socialProviders } from "./social-provider";
 import { useAtom } from "jotai";
 import { Options, optionsAtom } from "./store";
 import { useTheme } from "next-themes";
-import { ScrollArea } from "../ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ConfigurationSwitch, ConfigurationSwitchProps } from "./configuration-switch";
 import { CollapsibleSection } from "./collapsible-section";
@@ -342,7 +338,7 @@ export function Builder() {
                   setCurrentStep={setCurrentStep}
                 />
               </CardContent>
-              <CardFooter>
+              {currentStep == 0 && (<CardFooter>
                 <button
                   className="bg-stone-950 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-sm p-px text-xs font-semibold leading-6 text-white inline-block w-full"
                   onClick={() => setCurrentStep(currentStep + 1)}
@@ -355,7 +351,7 @@ export function Builder() {
                   </div>
                   <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-stone-800/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40"></span>
                 </button>
-              </CardFooter>
+              </CardFooter>)}
             </Card>
           </div>
         </div>
@@ -421,14 +417,17 @@ function ConfigurationSection({
 
   if (currentStep === 1) {
     return (
-      <div>
+      <>
+        <p>
+          Choose the framework you are using to get started.
+        </p>
         <p
           className="text-blue-400 hover:underline mt-1 text-sm cursor-pointer"
           onClick={() => setCurrentStep(0)}
         >
           Go Back
         </p>
-        <div className="flex items-start gap-2 flex-wrap justify-between mt-4">
+        <div className="grid grid-cols-2 gap-4 mt-4">
           {frameworks.map((fm) => (
             <div
               onClick={() => {
@@ -437,43 +436,45 @@ function ConfigurationSection({
                 }
               }}
               className={cn(
-                "flex flex-col items-center gap-4 border p-6 rounded-md w-full sm:w-5/12 flex-grow h-44 relative",
+                "flex flex-col items-center justify-between border p-4 rounded-md relative h-full",
                 fm.title !== "Next.js"
                   ? "opacity-55"
                   : "hover:ring-1 transition-all ring-border hover:bg-background duration-200 ease-in-out cursor-pointer",
               )}
               key={fm.title}
             >
+              <div className="flex flex-col items-center">
+                <fm.Icon />
+                <CardTitle className="text-lg text-center mb-2">{fm.title}</CardTitle>
+              </div>
+              <p className="text-xs text-center">{fm.description}</p>
               {fm.title !== "Next.js" && (
-                <span className="absolute top-4 right-4 text-xs">
+                <span className="text-xs text-muted-foreground mt-2">
                   Coming Soon
                 </span>
               )}
-              <fm.Icon />
-              <CardTitle className="text-2xl">{fm.title}</CardTitle>
-              <p className="text-sm">{fm.description}</p>
             </div>
           ))}
         </div>
-      </div>
+      </>
     );
   }
 
   return (
-    <div>
+    <>
       <p>
         Copy the code below and paste it in your application to
         get started.
       </p>
       <p
         className="text-blue-400 hover:underline mt-1 text-sm cursor-pointer"
-        onClick={() => setCurrentStep(0)}
+        onClick={() => setCurrentStep(1)}
       >
         Go Back
       </p>
       <div className="mt-4">
-        <CodeTabs />
+        {/* <CodeTabs /> */}
       </div>
-    </div>
+    </>
   );
 }
