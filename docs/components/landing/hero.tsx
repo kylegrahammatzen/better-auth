@@ -205,7 +205,12 @@ function CodePreview() {
 					<Highlight
 					  code={code}
 					  language="typescript"
-					  theme={resolvedTheme === "dark" ? themes.dracula : themes.github}
+					  theme={{
+						...(resolvedTheme === "light" ? themes.oneLight: themes.synthwave84),
+						plain: {
+							backgroundColor: "transparent",
+						},
+					  }}				
 					  >
 					  {({
 						className,
