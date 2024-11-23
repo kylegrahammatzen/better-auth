@@ -133,7 +133,7 @@ const PeopleSay = ({
 						animationDuration: `${animeSeconds}s`,
 					}}
 					className={cn(
-						"scroller flex flex-nowrap w-max min-w-full duration-[1000s] hover:[animation-play-state:paused] overflow-hidden relative gap-5 justify-around shrink-0",
+						"scroller flex flex-nowrap w-max min-w-full duration-&lsqb;1000s&rsqb; hover:[animation-play-state:paused] overflow-hidden relative gap-5 justify-around shrink-0",
 						reverse ? "animate-hrtl-scroll-reverse " : "animate-hrtl-scroll",
 					)}
 				>
