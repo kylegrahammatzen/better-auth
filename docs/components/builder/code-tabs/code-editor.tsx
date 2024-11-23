@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Highlight, themes } from 'prism-react-renderer';
 import { Button } from "@/components/ui/button"
 import { Check, Copy, Download } from 'lucide-react';
-import { useTheme } from 'next-themes';
 
 interface CodeEditorProps {
   language: 'typescript' | 'tsx';
@@ -14,7 +13,6 @@ interface CodeEditorProps {
 
 export function CodeEditor({ language, value, fileName }: CodeEditorProps) {
   const [copied, setCopied] = useState(false);
-  const { resolvedTheme } = useTheme();
 
   const lines = value.split('\n');
   const isLargeFile = lines.length > 40;
@@ -83,12 +81,12 @@ export function CodeEditor({ language, value, fileName }: CodeEditorProps) {
           )}
         </Button>
         <Highlight 
-          theme={resolvedTheme === "dark" ? themes.dracula : themes.github} 
+          theme={themes.duotoneLight}
           code={value} 
           language={language}
         >
           {({ className, style, tokens, getLineProps, getTokenProps }) => (
-            <pre className={`${className} text-sm overflow-x-auto p-4`} style={{ ...style, background: 'transparent' }}>
+            <pre className={`${className} ${style} text-sm overflow-x-auto p-4`}>
               <code>
                 {tokens.map((line, i) => (
                   <div key={i} {...getLineProps({ line, key: i })}>
@@ -108,4 +106,3 @@ export function CodeEditor({ language, value, fileName }: CodeEditorProps) {
     </div>
   );
 }
-
